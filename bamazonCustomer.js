@@ -48,14 +48,31 @@ function listItems() {
         console.log(prodTable.toString())
         
         connection.end()
+
+        purchasePrompt()
     })
     
     
 }
 
-// Prompt user to enter ID of item to buy
+// Function that asks user what item they wish to purchase and in what quantity
+function purchasePrompt() {
+    inquirer.prompt([
+        // Prompt user to enter ID of item to buy
+        {
+            message: "Enter Product ID of item to purchase:",
+            name: "getItemID"
+        },
+        // Prompt user to enter quantity they wish to purchase
+        {
+            message: "Enter quantity to purchase:",
+            name: "getQty"
+        }
+    ]).then( (response) => {
+        console.log(response)
+    })
 
-// Prompt user to enter quantity they wish to purchase
+}
 
 // Check for sufficient quantity to purchase
 
