@@ -69,7 +69,14 @@ function purchasePrompt() {
             name: "getQty"
         }
     ]).then( (response) => {
-        console.log(response)
+        let id = parseInt(response.getItemID)
+        let qty = parseInt(response.getQty)
+
+        if (id && qty && id>0 && qty>0) {
+            console.log(`You wish to purchase ${qty} of product ${id}`)
+        } else {
+            console.log("Invalid input detected - please make sure to enter valid numbers for all entries (positive integers only)")
+        }
     })
 
 }
