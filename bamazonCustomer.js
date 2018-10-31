@@ -5,7 +5,38 @@ let dbPassword = process.env.MYSQL_DB_PASSWORD
 const inquirer = require("inquirer")
 const mysql = require("mysql")
 
-// List all items for sale
+// Database variables
+const dbHost = "localhost"
+const dbPort = 3306
+const dbName = "bamazon"
+
+// Start by showing a list of items
+listItems();
+
+// Function that lists all items for sale
+function listItems() {
+    // Establish database connection
+    let connection = mysql.createConnection({
+        host: dbHost,
+        port: dbPort,
+        user: dbUser,
+        password: dbPassword,
+        database: dbName
+    })
+
+    // Query database
+    let query = "SELECT * FROM products"
+
+    connection.query( query, (error, response) => {
+        if (error) throw error;
+
+        console.log(response)
+        
+        connection.end()
+    })
+    
+    
+}
 
 // Prompt user to enter ID of item to buy
 
