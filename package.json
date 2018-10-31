@@ -4,6 +4,7 @@
   "description": "A CLI-based app that simulates an online retail environment",
   "main": "bamazonCustomer.js",
   "dependencies": {
+    "dotenv": "^6.1.0",
     "inquirer": "^6.2.0",
     "mysql": "^2.16.0"
   },

@@ -1,3 +1,7 @@
+require("dotenv").config()
+let dbUser = process.env.MYSQL_DB_USERNAME
+let dbPassword = process.env.MYSQL_DB_PASSWORD
+
 const inquirer = require("inquirer")
 const mysql = require("mysql")
 
