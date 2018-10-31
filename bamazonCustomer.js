@@ -74,6 +74,17 @@ function purchasePrompt() {
 
         if (id && qty && id>0 && qty>0) {
             console.log(`You wish to purchase ${qty} of product ${id}`)
+            inquirer.prompt({
+                type: "confirm",
+                message: "Is this correct?",
+                name: "confirm"
+            }).then( (response) => {
+                if (response.confirm) {
+                    console.log("Confirmed")
+                } else {
+                    console.log("Rejected")
+                }
+            })
         } else {
             console.log("Invalid input detected - please make sure to enter valid numbers for all entries (positive integers only)")
         }
