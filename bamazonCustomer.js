@@ -11,19 +11,20 @@ const dbHost = "localhost"
 const dbPort = 3306
 const dbName = "bamazon"
 
+// Establish database connection
+let connection = mysql.createConnection({
+    host: dbHost,
+    port: dbPort,
+    user: dbUser,
+    password: dbPassword,
+    database: dbName
+})
+
 // Start by showing a list of items
 listItems();
 
 // Function that lists all items for sale
 function listItems() {
-    // Establish database connection
-    let connection = mysql.createConnection({
-        host: dbHost,
-        port: dbPort,
-        user: dbUser,
-        password: dbPassword,
-        database: dbName
-    })
 
     // Query database
     let query = "SELECT * FROM products"
@@ -47,8 +48,6 @@ function listItems() {
 
         console.log(prodTable.toString())
         
-        connection.end()
-
         purchasePrompt()
     })
     
@@ -72,7 +71,9 @@ function purchasePrompt() {
         let id = parseInt(response.getItemID)
         let qty = parseInt(response.getQty)
 
+        // Check that id and qty were valid numbers and are greater than zero
         if (id && qty && id>0 && qty>0) {
+            // Confirm order details
             console.log(`You wish to purchase ${qty} of product ${id}`)
             inquirer.prompt({
                 type: "confirm",
@@ -80,7 +81,9 @@ function purchasePrompt() {
                 name: "confirm"
             }).then( (response) => {
                 if (response.confirm) {
+                    // Proceed to purchase if confirmed
                     console.log("Confirmed")
+                    purchaseProduct(id, qty)
                 } else {
                     console.log("Rejected")
                 }
@@ -92,8 +95,30 @@ function purchasePrompt() {
 
 }
 
-// Check for sufficient quantity to purchase
+function purchaseProduct(id, qty) {
+    
+    // Pull database again to make sure latest stock levels are reflected
+    let stockQuery = "SELECT stock_quantity FROM products WHERE item_id=?"
+    connection.query( stockQuery, [id], (error, response) => {
+        if (error) throw error;
 
-// If enough, update database with new stock level
+        if (response.length){
+            let item = response[0]
+            let avail = item.stock_quantity
 
-// Show customer cost of purchase
+            // Check for sufficient quantity to purchase
+            if (qty<=avail) {
+                // Query database to subtract quantity from stock
+            }
+            connection.end()
+        } else {
+            console.log(`ERROR: Product with ID ${id} not found`)
+            connection.end()
+        }
+
+    })
+
+    // If enough, update database with new stock level
+
+    // Show customer cost of purchase
+}
