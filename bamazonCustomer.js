@@ -101,7 +101,7 @@ function purchasePrompt() {
 function purchaseProduct(id, qty) {
     
     // Pull database again to make sure latest stock levels are reflected
-    let stockQuery = "SELECT stock_quantity, price FROM products WHERE item_id=?"
+    let stockQuery = "SELECT product_name, stock_quantity, price FROM products WHERE item_id=?"
     connection.query( stockQuery, [id], (error, response) => {
         if (error) throw error;
 
@@ -117,8 +117,13 @@ function purchaseProduct(id, qty) {
                 connection.query(updateQuery,[avail-qty, id], (error, response) => {
                     if (error) throw error;
 
-                    // Show customer cost of purchase
-                    console.log(`Purchase successful - you spent $${(price*qty).toFixed(2)}`)
+                    // Show customer purchase details
+                    console.log("Purchase successful!")
+                    console.log()
+                    console.log("Your order:")
+                    let orderTable = new Table({head: ["Product","Qty","Total"]})
+                    orderTable.push( [item.product_name, qty, "$"+(price*qty).toFixed(2)] )
+                    console.log(orderTable.toString())
                     
                     // Offer to place another order
                     orderAgainPrompt()
