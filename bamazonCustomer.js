@@ -82,14 +82,15 @@ function purchasePrompt() {
             }).then( (response) => {
                 if (response.confirm) {
                     // Proceed to purchase if confirmed
-                    console.log("Confirmed")
                     purchaseProduct(id, qty)
                 } else {
-                    console.log("Rejected")
+                    console.log("Purchase cancelled")
+                    connection.end()
                 }
             })
         } else {
-            console.log("Invalid input detected - please make sure to enter valid numbers for all entries (positive integers only)")
+            console.log("ERROR: Invalid input detected - please make sure to enter valid numbers for all entries (positive integers only)")
+            connection.end()
         }
     })
 
@@ -112,10 +113,11 @@ function purchaseProduct(id, qty) {
                 // Query database to subtract quantity from stock
                 let updateQuery = "UPDATE products SET stock_quantity=? WHERE item_id=?"
                 connection.query(updateQuery,[avail-qty, id], (error, response) => {
-                    console.log(response)
+                    if (error) throw error;
 
                     // Show customer cost of purchase
                     console.log(`Purchase successful - you spent $${(price*qty).toFixed(2)}`)
+                    console.log("Thank you for shopping with us!")
                     connection.end()
                 })
             } else {
