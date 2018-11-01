@@ -85,7 +85,9 @@ function purchasePrompt() {
                     purchaseProduct(id, qty)
                 } else {
                     console.log("Purchase cancelled")
-                    connection.end()
+
+                    // Offer to place another order
+                    orderAgainPrompt()
                 }
             })
         } else {
@@ -117,8 +119,9 @@ function purchaseProduct(id, qty) {
 
                     // Show customer cost of purchase
                     console.log(`Purchase successful - you spent $${(price*qty).toFixed(2)}`)
-                    console.log("Thank you for shopping with us!")
-                    connection.end()
+                    
+                    // Offer to place another order
+                    orderAgainPrompt()
                 })
             } else {
                 // Insufficient quantity
@@ -135,4 +138,21 @@ function purchaseProduct(id, qty) {
     })
 
     
+}
+
+// Function that prompts the user if they want to order again
+function orderAgainPrompt() {
+    console.log()
+    inquirer.prompt({
+        type: "confirm",
+        message: "Would you like to place another order?",
+        name: "confirm"
+    }).then( (response) => {
+        if (response.confirm) {
+            listItems()
+        } else {
+            console.log("Thank you for shopping with us!")
+            connection.end()
+        }
+    })
 }
