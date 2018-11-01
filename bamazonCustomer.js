@@ -98,13 +98,14 @@ function purchasePrompt() {
 function purchaseProduct(id, qty) {
     
     // Pull database again to make sure latest stock levels are reflected
-    let stockQuery = "SELECT stock_quantity FROM products WHERE item_id=?"
+    let stockQuery = "SELECT stock_quantity, price FROM products WHERE item_id=?"
     connection.query( stockQuery, [id], (error, response) => {
         if (error) throw error;
 
         if (response.length){
             let item = response[0]
             let avail = item.stock_quantity
+            let price = item.price
 
             // Check for sufficient quantity to purchase
             if (qty<=avail) {
@@ -112,23 +113,24 @@ function purchaseProduct(id, qty) {
                 let updateQuery = "UPDATE products SET stock_quantity=? WHERE item_id=?"
                 connection.query(updateQuery,[avail-qty, id], (error, response) => {
                     console.log(response)
-                    
-                    console.log("Purchase successful")
+
+                    // Show customer cost of purchase
+                    console.log(`Purchase successful - you spent $${(price*qty).toFixed(2)}`)
                     connection.end()
                 })
             } else {
+                // Insufficient quantity
                 console.log("ERROR: Insufficient quantity available to purchase")
                 connection.end()
             }
             
         } else {
+            // No responses means ID was not found
             console.log(`ERROR: Product with ID ${id} not found`)
             connection.end()
         }
 
     })
 
-    // If enough, update database with new stock level
-
-    // Show customer cost of purchase
+    
 }
