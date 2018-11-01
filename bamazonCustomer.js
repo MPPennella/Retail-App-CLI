@@ -109,8 +109,18 @@ function purchaseProduct(id, qty) {
             // Check for sufficient quantity to purchase
             if (qty<=avail) {
                 // Query database to subtract quantity from stock
+                let updateQuery = "UPDATE products SET stock_quantity=? WHERE item_id=?"
+                connection.query(updateQuery,[avail-qty, id], (error, response) => {
+                    console.log(response)
+                    
+                    console.log("Purchase successful")
+                    connection.end()
+                })
+            } else {
+                console.log("ERROR: Insufficient quantity available to purchase")
+                connection.end()
             }
-            connection.end()
+            
         } else {
             console.log(`ERROR: Product with ID ${id} not found`)
             connection.end()
