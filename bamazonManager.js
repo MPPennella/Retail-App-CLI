@@ -27,7 +27,7 @@ function selectMode() {
     inquirer.prompt({
         type: "list",
         message: "Select mode:",
-        choices: ["View Products for Sale","View Low Inventory","Add to Inventory","Add New Product"],
+        choices: ["View Products for Sale","View Low Inventory","Add to Inventory","Add New Product","Exit"],
         name: "mode"
     }).then( (response) => {
         switch (response.mode) {
@@ -41,6 +41,10 @@ function selectMode() {
             break;
 
             case "Add New Product":
+            break;
+
+            case "Exit":
+            connection.end()
             break;
         }
     })
