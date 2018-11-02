@@ -32,6 +32,7 @@ function selectMode() {
     }).then( (response) => {
         switch (response.mode) {
             case "View Products for Sale":
+            viewProducts()
             break;
 
             case "View Low Inventory":
@@ -48,4 +49,34 @@ function selectMode() {
             break;
         }
     })
+}
+
+function viewProducts() {
+
+    // Query database
+    let query = "SELECT * FROM products"
+
+    connection.query( query, (error, response) => {
+        if (error) throw error;
+        
+        let products = response;
+
+        let prodTable = new Table({head: ["Product ID","Product Description","Department","Price","Qty Available"]})
+        
+        products.map( (product) =>{
+            let id = product.item_id
+            let pName = product.product_name
+            let dept = product.department_name
+            let price = "$"+product.price.toFixed(2)
+            let quantity = product.stock_quantity
+
+            prodTable.push([id,pName,dept,price,quantity])
+        })
+
+        console.log(prodTable.toString())
+
+        connection.end()
+    })
+    
+
 }
