@@ -36,6 +36,7 @@ function selectMode() {
             break;
 
             case "View Low Inventory":
+            viewLowStock()
             break;
 
             case "Add to Inventory":
@@ -77,6 +78,34 @@ function viewProducts() {
 
         connection.end()
     })
-    
+}
 
+function viewLowStock() {
+
+    // Query database
+    let query = "SELECT * FROM products WHERE stock_quantity<5"
+
+    connection.query( query, (error, response) => {
+        if (error) throw error;
+        
+        let products = response;
+
+        if (products.length) {
+            let prodTable = new Table({head: ["Product ID","Product Description","Department","Price","Qty Available"]})
+            
+            products.map( (product) =>{
+                let id = product.item_id
+                let pName = product.product_name
+                let dept = product.department_name
+                let quantity = product.stock_quantity
+
+                prodTable.push([id,pName,dept,price,quantity])
+            })
+
+            console.log(prodTable.toString())
+        } else {
+            console.log("Currently no items with low stock.")
+        }
+        connection.end()
+    })
 }
