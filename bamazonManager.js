@@ -79,7 +79,7 @@ function viewProducts() {
 
         console.log(prodTable.toString())
 
-        connection.end()
+        promptAnotherOperation()
     })
 }
 
@@ -110,7 +110,7 @@ function viewLowStock() {
         } else {
             console.log("Currently no items with low stock.")
         }
-        connection.end()
+        promptAnotherOperation()
     })
 }
 
@@ -131,7 +131,7 @@ function addInventory() {
 
         connection.query(query,itemInfo, (error, response) => {
             console.log(response)
-            connection.end()
+            promptAnotherOperation()
         })
     })
 
@@ -167,7 +167,22 @@ function addNewProduct() {
             if (error) throw error
 
             console.log(response)
-            connection.end()
+            promptAnotherOperation()
         })
+    })
+}
+
+// Ask user if they want to perform another operation
+function promptAnotherOperation() {
+    inquirer.prompt({
+        type: "confirm",
+        message: "Would you like to perform another operation?",
+        name: "confirm"
+    }).then( (response) => {
+        if (response.confirm) {
+            selectMode()
+        } else {
+            connection.end()
+        }
     })
 }
