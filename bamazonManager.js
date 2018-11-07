@@ -93,7 +93,7 @@ function viewLowStock() {
         let products = response;
 
         if (products.length) {
-            let prodTable = new Table({head: ["Product ID","Product Description","Department","Price","Qty Available"]})
+            let prodTable = new Table({head: ["Product ID","Product Description","Department","Qty Available"]})
             
             products.map( (product) =>{
                 let id = product.item_id
@@ -101,7 +101,7 @@ function viewLowStock() {
                 let dept = product.department_name
                 let quantity = product.stock_quantity
 
-                prodTable.push([id,pName,dept,price,quantity])
+                prodTable.push([id,pName,dept,quantity])
             })
 
             console.log(prodTable.toString())
@@ -114,6 +114,24 @@ function viewLowStock() {
 
 // Function that lets managers add additional stock for items carried
 function addInventory() {
+    inquirer.prompt([
+        {
+            message: "Enter Product ID:",
+            name: "id"
+        },
+        {
+            message: "Quantity to add:",
+            name: "qty"
+        }
+    ]).then( (response) => {
+        let query = "UPDATE products SET stock_quantity=(stock_quantity+?) WHERE item_id=?"
+        let itemInfo = [response.qty, response.id]
+
+        connection.query(query,itemInfo, (error, response) => {
+            console.log(response)
+            connection.end()
+        })
+    })
 
 }
 
