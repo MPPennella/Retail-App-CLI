@@ -54,6 +54,7 @@ function selectMode() {
     })
 }
 
+// Function that shows all products in the database
 function viewProducts() {
 
     // Query database
@@ -82,6 +83,7 @@ function viewProducts() {
     })
 }
 
+// Function that shows all items with low stock (quantity < 5)
 function viewLowStock() {
 
     // Query database
