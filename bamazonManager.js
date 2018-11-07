@@ -40,9 +40,11 @@ function selectMode() {
             break;
 
             case "Add to Inventory":
+            addInventory()
             break;
 
             case "Add New Product":
+            addNewProduct()
             break;
 
             case "Exit":
@@ -107,5 +109,37 @@ function viewLowStock() {
             console.log("Currently no items with low stock.")
         }
         connection.end()
+    })
+}
+
+// Function that lets managers add additional stock for items carried
+function addInventory() {
+
+}
+
+// Function that lets managers add new products to store
+function addNewProduct() {
+    console.log()
+    console.log("Enter new product information:")
+    inquirer.prompt([
+        {
+            message: "Description:",
+            name: "name"
+        },
+        {
+            message: "Department:",
+            name: "department"
+        },
+        {
+            message: "Price ($):",
+            name: "price"
+        },
+        {
+            message: "Initial Quantity:",
+            name: "qty"
+        }
+    ]).then( (response) => {
+        let itemInfo = [response.name, response.department, response.price, response.qty]
+        console.log(itemInfo)
     })
 }
