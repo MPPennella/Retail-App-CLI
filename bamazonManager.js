@@ -140,6 +140,14 @@ function addNewProduct() {
         }
     ]).then( (response) => {
         let itemInfo = [response.name, response.department, response.price, response.qty]
-        console.log(itemInfo)
+        
+        let query = "INSERT INTO products (product_name, department_name, price, stock_quantity) VALUES (?, ?, ?, ?)"
+
+        connection.query(query, itemInfo, (error, response) => {
+            if (error) throw error
+
+            console.log(response)
+            connection.end()
+        })
     })
 }
