@@ -130,7 +130,9 @@ function addInventory() {
         let itemInfo = [response.qty, response.id]
 
         connection.query(query,itemInfo, (error, response) => {
-            console.log(response)
+            if (error) return error
+
+            console.log("Inventory successfully added!")
             promptAnotherOperation()
         })
     })
