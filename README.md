@@ -28,28 +28,28 @@ The Manager view allows a manager to view products, get reports on low inventory
 
 Upon starting the application, the manager will be prompted to choose which operation they wish to perform, or to exit the program.
 
-![Operation Prompt Example](.Images/bamazonManagerOperationPrompt.png)
+![Operation Prompt Example](./Images/bamazonManagerOperationPrompt.png)
 
 ### View Products for Sale
 
 Queries the database and displays a table showing all products available. Shows Product IDs, description, department, price per item, and available quantity for sale.
 
-![Product Table Example](.Images/bamazonManagerProductTable.png)
+![Product Table Example](./Images/bamazonManagerProductTable.png)
 
 ### View Low Inventory
 
 Queries the database for items with low stock (less than 5 quantity available). Shows Product ID, description, department, and remaining quantity.
 
-![Low Inventory Table Example](.Images/bamazonManagerLowInventory.png)
+![Low Inventory Table Example](./Images/bamazonManagerLowInventory.png)
 
 ### Add to Inventory
 
 Allows the manager to add additional quantity to items. The manager is prompted to enter a Product ID and a quantity to add. The database is queried and updates the matching item with the additional stock.
 
-![Add Inventory Example](.Images/bamazonManagerAddInventory.png)
+![Add Inventory Example](./Images/bamazonManagerAddInventory.png)
 
 ### Add New Product
 
 Asks the manager to enter product information for a new product. The manager is prompted to enter a short product description, department, price, and initial quantity for the new product. The information is then sent to the database, where the new product is entered as automatically assigned a Product ID.
 
-![New Product Example](.Images/bamazonManagerNewProduct.png)
+![New Product Example](./Images/bamazonManagerNewProduct.png)
