@@ -168,7 +168,7 @@ function addNewProduct() {
         connection.query(query, itemInfo, (error, response) => {
             if (error) throw error
 
-            console.log(response)
+            console.log(`Item successfully added, assigned Product ID ${response.insertId}`)
             promptAnotherOperation()
         })
     })
